@@ -60,7 +60,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: AmirBasiony/K8s-GitOps-wordpress
-          token: ${{ secrets.GITOPS_PAT }}
+          token: ${{ secrets.PAT_GITOPS }}
           path: gitops-repo
 
       - name: Update image tag in kustomization overlay
