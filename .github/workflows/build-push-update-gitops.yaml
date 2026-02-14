@@ -56,7 +56,7 @@ jobs:
       - name: Update newTag to latest using sed
         run: |
           cd gitops
-          FILE="overlays/prod/kustomization.yaml"
+          FILE="base/kustomization.yaml"
           
           # Replace first occurrence of newTag
           sed -i '0,/newTag:/s/newTag:.*/newTag: "latest"/' "$FILE"
