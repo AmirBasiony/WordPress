@@ -58,19 +58,13 @@ jobs:
           cd gitops
           FILE="overlays/prod/kustomization.yaml"
 
-          python3 - <<'PY'
-          import os, re
-          path = "overlays/prod/kustomization.yaml"
-          tag = os.environ["IMAGE_TAG"]
-          s = open(path,"r",encoding="utf-8").read()
-
-          # update the first occurrence of "newTag:"
-          s2 = re.sub(r'(\bnewTag:\s*)(\S+)', r'\g<1>' + tag, s, count=1)
-          if s2 == s:
-            raise SystemExit("Failed to update newTag")
-          open(path,"w",encoding="utf-8").write(s2)
-          print("Updated newTag ->", tag)
-          PY
+          # If newTag exists, replace it
+          if grep -q "newTag:" "$FILE"; then
+            sed -i '0,/newTag:/s/newTag:.*/newTag: "latest"/' "$FILE"
+          else
+            # Append newTag under the first image entry
+            sed -i '/images:/,/newName:/s/$/\n    newTag: "latest"/' "$FILE"
+          fi
 
       - name: Commit and push GitOps change
         run: |
