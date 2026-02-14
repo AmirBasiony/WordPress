@@ -56,11 +56,11 @@ jobs:
       - name: Update image tag in GitOps overlay
         run: |
           cd gitops
-          FILE="base/kustomization.yaml"
+          FILE="overlays/prod/kustomization.yaml"
 
           python3 - <<'PY'
           import os, re
-          path = "base/kustomization.yaml"
+          path = "overlays/prod/kustomization.yaml"
           tag = os.environ["IMAGE_TAG"]
           s = open(path,"r",encoding="utf-8").read()
 
@@ -74,10 +74,10 @@ jobs:
 
       - name: Commit and push GitOps change
         run: |
-          cd K8s-GitOps-wordpress
+          cd gitops
           git config user.email "actions@github.com"
           git config user.name "github-actions"
-          git add base/kustomization.yaml
+          git add overlays/prod/kustomization.yaml
           git commit -m "amir-wordpress deploy ${IMAGE_TAG}"
           git push origin "${GITOPS_BRANCH}"    
 
@@ -90,7 +90,7 @@ jobs:
       # - name: Update newTag to latest using sed
       #   run: |
       #     cd gitops
-      #     FILE="base/kustomization.yaml"
+      #     FILE="overlays/prod/kustomization.yaml"
           
       #     # Replace first occurrence of newTag
       #     sed -i '0,/newTag:/s/newTag:.*/newTag: "latest"/' "$FILE"
@@ -101,7 +101,7 @@ jobs:
       #     git config user.email "actions@github.com"
       #     git config user.name "github-actions"
 
-      #     git add base/kustomization.yaml
+      #     git add overlays/prod/kustomization.yaml
 
       #     if git diff --cached --quiet; then
       #       echo "No changes to commit."
