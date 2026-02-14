@@ -11,4 +11,4 @@ nginx/
 
 # don't bake runtime config
 # wp-config.php
-wp-config-sample.php
+# wp-config-sample.php
