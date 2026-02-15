@@ -1,8 +1,8 @@
 name: Build, Push Docker Image and Update GitOps
 
 on:
-  # push:
-  #   branches: ["master"]
+  push:
+    branches: ["master"]
   workflow_dispatch:
 
 permissions:
